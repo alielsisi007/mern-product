@@ -16,12 +16,9 @@ app.use(express.json()); // allaws us to accept json data in the req.body
 app.use("/api/products", productRouter);
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "/frontend/app/dist")));
-
+  app.use(express.static(path.join(__dirname, "/frontend/dist")));
   app.get("*", (req, res) => {
-    res.sendFile(
-      path.resolve(__dirname, "frontend", "app", "dist", "index.html")
-    );
+    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
   });
 }
 
@@ -29,6 +26,3 @@ app.listen(PORT, () => {
   connectDB();
   console.log(`server started at http://localhost: ${PORT}`);
 });
-
-// FPKSxKsd1YSKCHsG /// qKH7MgUt3MXVx42F
-// mongodb+srv://alielsisicode:qKH7MgUt3MXVx42F@cluster0.g0uv7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
