@@ -11,20 +11,26 @@ const PORT = process.env.PORT || 5000;
 
 const __dirname = path.resolve();
 
-app.use(express.json()); // allaws us to accept json data in the req.body
+// Middleware
+app.use(express.json());
 
+// API routes
 app.use("/api/products", productRouter);
 
+// Serve frontend
 if (process.env.NODE_ENV === "production") {
-  const path = require("path"); // تأكد من استخدام require إذا لم تُستخدم الموديلات ES6
-  app.use(express.static(path.join(__dirname, "frontend/dist")));
-
+  app.use(express.static(path.join(__dirname, "/frontend/dist")));
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "frontend/dist", "index.html"));
+    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running...");
   });
 }
 
+// Start server
 app.listen(PORT, () => {
   connectDB();
-  console.log(`server started at http://localhost: ${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
